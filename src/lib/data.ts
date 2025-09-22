@@ -60,8 +60,13 @@ export async function loadData(): Promise<Record[]> {
 }
 
 export async function addRecord(record: Omit<Record, 'id'>): Promise<{ success: boolean; message: string }> {
+  console.log('🔍 addRecord called with:', record)
+  console.log('🔍 Supabase URL:', process.env.NEXT_PUBLIC_SUPABASE_URL ? 'Set' : 'Not Set')
+  console.log('🔍 Supabase Key:', process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'Set' : 'Not Set')
+  
   try {
     // Check for duplicates
+    console.log('🔍 Checking for duplicates...')
     const { data: existingData, error: searchError } = await supabase
       .from('manufacturing_records')
       .select('*')
@@ -72,33 +77,42 @@ export async function addRecord(record: Omit<Record, 'id'>): Promise<{ success: 
       .eq('comment', record.コメント)
     
     if (searchError) {
-      console.error('Failed to search for duplicates:', searchError)
-      return { success: false, message: 'データの確認中にエラーが発生しました。' }
+      console.error('❌ Failed to search for duplicates:', searchError)
+      return { success: false, message: `データの確認中にエラーが発生しました: ${searchError.message}` }
     }
     
+    console.log('🔍 Existing data found:', existingData?.length || 0, 'records')
+    
     if (existingData && existingData.length > 0) {
+      console.log('⚠️ Duplicate record found')
       return { success: false, message: '同じ内容のレコードが既に存在します。内容を確認してください。' }
     }
     
     // Insert new record
-    const { error } = await supabase
+    console.log('🔍 Inserting new record...')
+    const insertData = {
+      date: record.日付,
+      respondent: record.回答者,
+      process_name: record.工程名,
+      cause_category: record.原因カテゴリ,
+      comment: record.コメント
+    }
+    console.log('🔍 Insert data:', insertData)
+    
+    const { data: insertedData, error } = await supabase
       .from('manufacturing_records')
-      .insert([{
-        date: record.日付,
-        respondent: record.回答者,
-        process_name: record.工程名,
-        cause_category: record.原因カテゴリ,
-        comment: record.コメント
-      }])
+      .insert([insertData])
+      .select()
     
     if (error) {
-      console.error('Failed to add record:', error)
-      return { success: false, message: 'データの追加中にエラーが発生しました。' }
+      console.error('❌ Failed to add record:', error)
+      return { success: false, message: `データの追加中にエラーが発生しました: ${error.message}` }
     }
     
+    console.log('✅ Record inserted successfully:', insertedData)
     return { success: true, message: 'データが正常に追加されました。' }
   } catch (e) {
-    console.error('Failed to add record:', e)
-    return { success: false, message: 'データの追加中にエラーが発生しました。' }
+    console.error('❌ Exception in addRecord:', e)
+    return { success: false, message: `データの追加中にエラーが発生しました: ${e}` }
   }
 }
