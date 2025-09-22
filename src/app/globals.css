@@ -1,0 +1,208 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 基幹システム風の基本スタイル */
+.base-system {
+  background-color: #F0F0F0;
+  font-family: 'MS Gothic', 'Courier New', monospace;
+  font-size: 14px; /* 11px → 14px (1.25倍) */
+  color: #333333;
+  line-height: 1.2;
+  transform: scale(1.25);
+  transform-origin: top left;
+  width: 80%; /* 1/1.25 = 0.8 */
+}
+
+/* ヘッダー・タイトルバー */
+.base-header {
+  background-color: #E0E0E0;
+  border: 1px solid #999999;
+  padding: 5px 10px; /* 4px 8px → 5px 10px (1.25倍) */
+  font-weight: bold;
+  font-size: 15px; /* 12px → 15px (1.25倍) */
+  color: #000000;
+}
+
+/* メインコンテナ */
+.base-container {
+  background-color: #F0F0F0;
+  padding: 10px; /* 8px → 10px (1.25倍) */
+  border: 1px solid #CCCCCC;
+}
+
+/* パネル・セクション */
+.base-panel {
+  background-color: white;
+  border: 1px solid #CCCCCC;
+  padding: 8px; /* 6px → 8px (1.25倍) */
+  margin-bottom: 5px; /* 4px → 5px (1.25倍) */
+}
+
+/* テーブル */
+.base-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  background-color: white;
+}
+
+.base-table th {
+  background-color: #E8E8E8;
+  border: 1px solid #999999;
+  padding: 3px 6px;
+  font-weight: bold;
+  text-align: left;
+  font-size: 11px;
+}
+
+.base-table td {
+  border: 1px solid #CCCCCC;
+  padding: 3px 6px;
+  font-size: 11px;
+}
+
+.base-table tr:nth-child(even) {
+  background-color: #F8F8F8;
+}
+
+/* ボタン */
+.base-button {
+  background-color: #E0E0E0;
+  border: 1px solid #999999;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-family: 'MS Gothic', 'Courier New', monospace;
+  cursor: pointer;
+  margin: 1px;
+}
+
+.base-button:hover {
+  background-color: #D0D0D0;
+}
+
+.base-button-primary {
+  background-color: #4A90E2;
+  color: white;
+  border: 1px solid #357ABD;
+}
+
+.base-button-primary:hover {
+  background-color: #357ABD;
+}
+
+/* フォーム要素 */
+.base-input {
+  border: 1px solid #999999;
+  padding: 2px 4px;
+  font-size: 11px;
+  font-family: 'MS Gothic', 'Courier New', monospace;
+  background-color: white;
+}
+
+.base-select {
+  border: 1px solid #999999;
+  padding: 2px 4px;
+  font-size: 11px;
+  font-family: 'MS Gothic', 'Courier New', monospace;
+  background-color: white;
+}
+
+.base-textarea {
+  border: 1px solid #999999;
+  padding: 2px 4px;
+  font-size: 11px;
+  font-family: 'MS Gothic', 'Courier New', monospace;
+  background-color: white;
+  resize: vertical;
+}
+
+/* ラベル */
+.base-label {
+  font-size: 11px;
+  font-weight: bold;
+  color: #000000;
+  margin-right: 4px;
+}
+
+/* ナビゲーション */
+.base-nav {
+  background-color: #E8E8E8;
+  border: 1px solid #CCCCCC;
+  padding: 4px;
+  margin-bottom: 8px;
+}
+
+.base-nav-button {
+  background-color: #F0F0F0;
+  border: 1px solid #999999;
+  padding: 4px 12px;
+  margin-right: 2px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.base-nav-button.active {
+  background-color: #4A90E2;
+  color: white;
+  border: 1px solid #357ABD;
+}
+
+.base-nav-button:hover:not(.active) {
+  background-color: #E0E0E0;
+}
+
+/* メッセージ */
+.base-message {
+  padding: 4px 8px;
+  margin: 4px 0;
+  font-size: 11px;
+  border: 1px solid;
+}
+
+.base-message.success {
+  background-color: #E8F5E8;
+  border-color: #4CAF50;
+  color: #2E7D32;
+}
+
+.base-message.warning {
+  background-color: #FFF3E0;
+  border-color: #FF9800;
+  color: #E65100;
+}
+
+.base-message.error {
+  background-color: #FFEBEE;
+  border-color: #F44336;
+  color: #C62828;
+}
+
+/* 統計カード */
+.base-metric-card {
+  background-color: white;
+  border: 1px solid #CCCCCC;
+  padding: 8px;
+  text-align: center;
+  margin: 2px;
+}
+
+.base-metric-card h3 {
+  font-size: 10px;
+  font-weight: bold;
+  color: #666666;
+  margin: 0 0 4px 0;
+}
+
+.base-metric-card h2 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000000;
+  margin: 0;
+}
+
+/* レガシー互換性のための既存クラス */
+.toolbar { @apply base-header; }
+.pane { @apply base-panel; }
+.section-title { @apply base-label; }
+
