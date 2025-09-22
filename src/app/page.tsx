@@ -30,16 +30,25 @@ export default function HomePage() {
   const [message, setMessage] = useState<{ type: 'success' | 'warning' | 'error'; text: string } | null>(null)
 
   useEffect(() => {
-    setData(loadData())
+    const fetchData = async () => {
+      const result = await loadData()
+      setData(result)
+    }
+    fetchData()
   }, [])
 
-  const handleAddRecord = (formData: any) => {
-    const result = addRecord(formData)
+  const handleAddRecord = async (formData: any) => {
+    const result = await addRecord(formData)
     setMessage({
       type: result.success ? 'success' : 'warning',
       text: result.message
     })
-    setData(loadData())
+    
+    // Reload data after successful addition
+    if (result.success) {
+      const updatedData = await loadData()
+      setData(updatedData)
+    }
     
     // Clear message after 3 seconds
     setTimeout(() => setMessage(null), 3000)
@@ -91,7 +100,7 @@ export default function HomePage() {
 }
 
 function InputPage({ onAddRecord, message }: { 
-  onAddRecord: (data: any) => void
+  onAddRecord: (data: any) => Promise<void>
   message: { type: 'success' | 'warning' | 'error'; text: string } | null 
 }) {
   const [formData, setFormData] = useState({
@@ -102,13 +111,13 @@ function InputPage({ onAddRecord, message }: {
     コメント: ''
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!formData.回答者.trim() || !formData.工程名) {
-      onAddRecord({ ...formData, error: '回答者と工程名は必須項目です' })
+      await onAddRecord({ ...formData, error: '回答者と工程名は必須項目です' })
       return
     }
-    onAddRecord(formData)
+    await onAddRecord(formData)
     setFormData({
       日付: new Date().toISOString().split('T')[0],
       回答者: '',
